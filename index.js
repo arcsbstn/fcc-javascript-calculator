@@ -1,4 +1,15 @@
 class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+     currVal: '0',
+     prevVal: '0',
+     formula: '',
+     currSign: 'pos',
+     lastClicked: ''
+    }
+  }
+
   render() {
     return (
       <div id='content-wrapper' className='container-fluid'>
@@ -43,7 +54,7 @@ class Buttons extends React.Component {
 class Output extends React.Component {
   render() {
     return (
-      <div className='output-screen' id='display'></div>
+      <div id='display' className='output-screen'>hello world</div>
     )
   }
 }
@@ -51,7 +62,7 @@ class Output extends React.Component {
 class Formula extends React.Component {
   render() {
     return (
-      <div classname='formula-screen'></div>
+      <div className='formula-screen'>aye</div>
     )
   }
 }
