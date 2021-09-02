@@ -1,2 +1,3 @@
-# fcc-javascript-calculator
+# JavaScript Calculator
+
 My solution for the JavaScript Calculator project under freeCodeCamp's Front End Development Libraries course. 
