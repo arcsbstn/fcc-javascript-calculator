@@ -51,6 +51,16 @@ class App extends React.Component {
     }
   }
 
+  initialize = () => {
+    this.setState({
+      currVal: '0',
+      prevVal: '0',
+      formula: '',
+      currSign: 'pos',
+      lastClicked: ''
+    })
+  }
+
   render() {
     return (
       <div id='content-wrapper' className='container-fluid'>
@@ -60,6 +70,7 @@ class App extends React.Component {
               formula={this.state.formula} />
             <Output />
             <Buttons
+              initialize={this.initialize}
               handleNumber={this.handleNumber}
               handleOperator={this.handleOperator}
             />
@@ -74,7 +85,7 @@ class Buttons extends React.Component {
   render() {
     return (
       <div>
-        <button id='clear' className='btn btn-primary'>AC</button>
+        <button id='clear' className='btn btn-primary' onClick={this.props.initialize}>AC</button>
         <button id='add' className='btn btn-secondary' onClick={this.props.handleOperator} value='+'>+</button>
         <button id='subtract' className='btn btn-secondary' onClick={this.props.handleOperator} value='-'>-</button>
         <button id='multiply' className='btn btn-secondary' onClick={this.props.handleOperator} value='*'>*</button>
