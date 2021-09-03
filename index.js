@@ -15,6 +15,21 @@ class App extends React.Component {
     this.handleNumber = this.handleNumber.bind(this)
   }
 
+  handleEvaluate = () => {
+    let expression = this.state.formula
+    while (endsWithOperator.test(expression)) {
+      expression = expression.slice(0, -1)
+    }
+    expression = expression
+      .replace(/x/g, '*')
+      .replace(/‑/g, '-')
+      .replace('--', '+0+0+0+0+0+0+')
+    let answer = Math.round(1000000000000 * eval(expression)) / 1000000000000;
+    this.setState({
+      currVal: answer
+    })
+  }
+
   handleOperator = (e) => {
     let value = e.target.value
     let { currVal, formula, evaluated } = this.state
@@ -51,7 +66,7 @@ class App extends React.Component {
     }
   }
 
-  initialize = () => {
+  handleAllClear = () => {
     this.setState({
       currVal: '0',
       prevVal: '0',
@@ -68,11 +83,14 @@ class App extends React.Component {
           <div id='calculator' className='row'>
             <Formula
               formula={this.state.formula} />
-            <Output />
+            <Output
+              currVal={this.state.currVal}
+            />
             <Buttons
-              initialize={this.initialize}
+              handleAllClear={this.handleAllClear}
               handleNumber={this.handleNumber}
               handleOperator={this.handleOperator}
+              handleEvaluate={this.handleEvaluate}
             />
           </div>
         </div>
@@ -85,11 +103,11 @@ class Buttons extends React.Component {
   render() {
     return (
       <div>
-        <button id='clear' className='btn btn-primary' onClick={this.props.initialize}>AC</button>
+        <button id='clear' className='btn btn-primary' onClick={this.props.handleAllClear}>AC</button>
         <button id='add' className='btn btn-secondary' onClick={this.props.handleOperator} value='+'>+</button>
         <button id='subtract' className='btn btn-secondary' onClick={this.props.handleOperator} value='-'>-</button>
         <button id='multiply' className='btn btn-secondary' onClick={this.props.handleOperator} value='*'>*</button>
-        <button id='buttonide' className='btn btn-secondary' onClick={this.props.handleOperator} value='/'>/</button>
+        <button id='divide' className='btn btn-secondary' onClick={this.props.handleOperator} value='/'>/</button>
         <button id='nine' className='btn btn-secondary' onClick={this.props.handleNumber} value='9'>9</button>
         <button id='eight' className='btn btn-secondary' onClick={this.props.handleNumber} value='8'>8</button>
         <button id='seven' className='btn btn-secondary' onClick={this.props.handleNumber} value='7'>7</button>
@@ -101,7 +119,7 @@ class Buttons extends React.Component {
         <button id='one' className='btn btn-secondary' onClick={this.props.handleNumber} value='1'>1</button>
         <button id='zero' className='btn btn-secondary' onClick={this.props.handleNumber} value='0'>0</button>
         <button id='decimal' className='btn btn-secondary'>.</button>
-        <button id='equals' className='btn btn-primary'>=</button>
+        <button id='equals' className='btn btn-primary' onClick={this.props.handleEvaluate} value='='>=</button>
       </div>
     )
   }
@@ -110,7 +128,7 @@ class Buttons extends React.Component {
 class Output extends React.Component {
   render() {
     return (
-      <div id='display' className='output-screen'>hello world</div>
+      <div id='display' className='output-screen'>{this.props.currVal}</div>
     )
   }
 }
