@@ -1,3 +1,7 @@
+const inputNumbers = /([^.0-9]0|^0)$/
+const endsWithOperator = /[*+\‑/]$/
+const endsWithNegativeSign = /\d[x/+‑]{1}‑$/
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -11,6 +15,20 @@ class App extends React.Component {
     this.handleNumber = this.handleNumber.bind(this)
   }
 
+  handleOperator = (e) => {
+    let value = e.target.value
+    let { currVal, formula, evaluated } = this.state
+
+    this.setState({
+      prevVal: formula,
+      formula: endsWithOperator.test(formula)
+        ? formula.slice(0, -1) + value
+        : formula + value
+    })
+
+    // TODO: fix handling with minus sign (-), e.g. 8 * -5 should work
+  }
+
   handleNumber = (e) => {
     let value = e.target.value
     let { currVal, formula, evaluated } = this.state
@@ -21,11 +39,16 @@ class App extends React.Component {
       this.setState({
         currVal: currVal === '0'
           ? value
-          : currVal + value
+          : currVal + value,
+        formula: currVal === '0' && value === '0'
+          ? formula === ''
+            ? value
+            : formula
+          : inputNumbers.test(formula)
+            ? formula.slice(0, -1) + value
+            : formula + value
       })
     }
-
-    console.log(e.target.value, this.state.currVal)
   }
 
   render() {
@@ -34,10 +57,11 @@ class App extends React.Component {
         <div id='row-wrapper' className='row align-items-center justify-content-center'>
           <div id='calculator' className='row'>
             <Formula
-              currVal={this.state.currVal} />
+              formula={this.state.formula} />
             <Output />
             <Buttons
               handleNumber={this.handleNumber}
+              handleOperator={this.handleOperator}
             />
           </div>
         </div>
@@ -51,10 +75,10 @@ class Buttons extends React.Component {
     return (
       <div>
         <button id='clear' className='btn btn-primary'>AC</button>
-        <button id='add' className='btn btn-secondary'>+</button>
-        <button id='subtract' className='btn btn-secondary'>-</button>
-        <button id='multiply' className='btn btn-secondary'>*</button>
-        <button id='buttonide' className='btn btn-secondary'>/</button>
+        <button id='add' className='btn btn-secondary' onClick={this.props.handleOperator} value='+'>+</button>
+        <button id='subtract' className='btn btn-secondary' onClick={this.props.handleOperator} value='-'>-</button>
+        <button id='multiply' className='btn btn-secondary' onClick={this.props.handleOperator} value='*'>*</button>
+        <button id='buttonide' className='btn btn-secondary' onClick={this.props.handleOperator} value='/'>/</button>
         <button id='nine' className='btn btn-secondary' onClick={this.props.handleNumber} value='9'>9</button>
         <button id='eight' className='btn btn-secondary' onClick={this.props.handleNumber} value='8'>8</button>
         <button id='seven' className='btn btn-secondary' onClick={this.props.handleNumber} value='7'>7</button>
@@ -83,7 +107,7 @@ class Output extends React.Component {
 class Formula extends React.Component {
   render() {
     return (
-      <div className='formula-screen'>{this.props.currVal}</div>
+      <div className='formula-screen'>{this.props.formula}</div>
     )
   }
 }
