@@ -12,7 +12,11 @@ class App extends React.Component {
       currSign: 'pos',
       lastClicked: ''
     }
+
+    this.handleAllClear = this.handleAllClear.bind(this)
+    this.handleEvaluate = this.handleEvaluate.bind(this)
     this.handleNumber = this.handleNumber.bind(this)
+    this.handleOperator = this.handleOperator.bind(this)
   }
 
   handleEvaluate = () => {
