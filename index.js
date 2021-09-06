@@ -1,6 +1,7 @@
 const inputNumbers = /([^.0-9]0|^0)$/
 const endsWithOperator = /[*+\‑/]$/
-const endsWithNegativeSign = /\d[x/+‑]{1}‑$/
+const endsWithNegativeSign = /\d[*/+‑]{1}‑$/
+const isOperator = /[*/+‑]/
 
 class App extends React.Component {
   constructor(props) {
@@ -45,9 +46,10 @@ class App extends React.Component {
 
     if (evaluated) {
       this.setState({
-        formula: prevVal + value
+        formula: prevVal + value,
+        currVal: value
       })
-    } else {
+    } else if (!endsWithOperator.test(formula)) {
       this.setState({
         prevVal: formula,
         currVal: value,
@@ -62,11 +64,18 @@ class App extends React.Component {
     let value = e.target.value
     let { currVal, formula, evaluated } = this.state
 
+    // TODO: add handling for when evaluated && new expression
+
     if (currVal.length > 21) {
       // TODO: handle too long currVal
+    } else if (evaluated) {
+      this.setState({
+        currVal: value,
+        formula: formula + value
+      })
     } else {
       this.setState({
-        currVal: currVal === '0'
+        currVal: currVal === '0' || isOperator.test(currVal)
           ? value
           : currVal + value,
         formula: currVal === '0' && value === '0'
