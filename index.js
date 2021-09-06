@@ -10,7 +10,8 @@ class App extends React.Component {
       prevVal: '0',
       formula: '',
       currSign: 'pos',
-      lastClicked: ''
+      lastClicked: '',
+      evaluated: false
     }
 
     this.handleAllClear = this.handleAllClear.bind(this)
@@ -28,22 +29,31 @@ class App extends React.Component {
       .replace(/x/g, '*')
       .replace(/‑/g, '-')
       .replace('--', '+0+0+0+0+0+0+')
+
     let answer = Math.round(1000000000000 * eval(expression)) / 1000000000000;
     this.setState({
-      currVal: answer
+      formula: expression,
+      currVal: answer,
+      prevVal: answer,
+      evaluated: true
     })
   }
 
   handleOperator = (e) => {
     let value = e.target.value
-    let { currVal, formula, evaluated } = this.state
+    let { currVal, prevVal, formula, evaluated } = this.state
 
-    this.setState({
-      prevVal: formula,
-      formula: endsWithOperator.test(formula)
-        ? formula.slice(0, -1) + value
-        : formula + value
-    })
+    if (evaluated) {
+      this.setState({
+        formula: prevVal + value
+      })
+    } else {
+      this.setState({
+        prevVal: formula,
+        currVal: value,
+        formula: formula + value
+      })
+    }
 
     // TODO: fix handling with minus sign (-), e.g. 8 * -5 should work
   }
@@ -76,7 +86,8 @@ class App extends React.Component {
       prevVal: '0',
       formula: '',
       currSign: 'pos',
-      lastClicked: ''
+      lastClicked: '',
+      evaluated: false
     })
   }
 
