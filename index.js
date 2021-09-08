@@ -74,14 +74,15 @@ class App extends React.Component {
     let value = e.target.value
     let { currVal, formula, evaluated } = this.state
 
-    // TODO: add handling for when evaluated && new expression
-
     if (currVal.length > 21) {
       // TODO: handle too long currVal
     } else if (evaluated) {
       this.setState({
         currVal: value,
-        formula: formula + value
+        formula: formula !== ''
+          ? value
+          : formula + value,
+        evaluated: false
       })
     } else {
       this.setState({
