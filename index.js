@@ -1,7 +1,7 @@
 const inputNumbers = /([^.0-9]0|^0)$/
-const endsWithOperator = /[*+\‑/]$/
-const endsWithNegativeSign = /\d[*/+‑]{1}‑$/
-const isOperator = /[*/+‑]/
+const endsWithOperator = /[x+-/]$/
+const endsWithNegativeSign = /\d[x/+-]{1}-$/
+const isOperator = /[x/+-]/
 
 class App extends React.Component {
   constructor(props) {
@@ -28,10 +28,10 @@ class App extends React.Component {
     }
     expression = expression
       .replace(/x/g, '*')
-      .replace(/‑/g, '-')
+      .replace(/-/g, '-')
       .replace('--', '+0+0+0+0+0+0+')
 
-    let answer = Math.round(1000000000000 * eval(expression)) / 1000000000000;
+    let answer = Math.round(1000000000000 * eval(expression)) / 1000000000000
     this.setState({
       formula: expression,
       currVal: answer,
@@ -42,22 +42,32 @@ class App extends React.Component {
 
   handleOperator = (e) => {
     let value = e.target.value
-    let { currVal, prevVal, formula, evaluated } = this.state
+    let { formula, prevVal, evaluated } = this.state
+
+    this.setState({ currVal: value, evaluated: false })
 
     if (evaluated) {
       this.setState({
         formula: prevVal + value,
-        currVal: value
       })
     } else if (!endsWithOperator.test(formula)) {
       this.setState({
         prevVal: formula,
-        currVal: value,
         formula: formula + value
       })
+    } else if (!endsWithNegativeSign.test(formula)) {
+      this.setState({
+        formula: (
+          endsWithNegativeSign.test(formula + value)
+            ? formula
+            : prevVal
+        ) + value
+      })
+    } else if (value !== '-') {
+      this.setState({
+        formula: prevVal + value
+      })
     }
-
-    // TODO: fix handling with minus sign (-), e.g. 8 * -5 should work
   }
 
   handleNumber = (e) => {
@@ -130,7 +140,7 @@ class Buttons extends React.Component {
         <button id='clear' className='btn btn-primary' onClick={this.props.handleAllClear}>AC</button>
         <button id='add' className='btn btn-secondary' onClick={this.props.handleOperator} value='+'>+</button>
         <button id='subtract' className='btn btn-secondary' onClick={this.props.handleOperator} value='-'>-</button>
-        <button id='multiply' className='btn btn-secondary' onClick={this.props.handleOperator} value='*'>*</button>
+        <button id='multiply' className='btn btn-secondary' onClick={this.props.handleOperator} value='x'>x</button>
         <button id='divide' className='btn btn-secondary' onClick={this.props.handleOperator} value='/'>/</button>
         <button id='nine' className='btn btn-secondary' onClick={this.props.handleNumber} value='9'>9</button>
         <button id='eight' className='btn btn-secondary' onClick={this.props.handleNumber} value='8'>8</button>
