@@ -15,10 +15,11 @@ class App extends React.Component {
       evaluated: false
     }
 
-    this.handleAllClear = this.handleAllClear.bind(this)
     this.handleEvaluate = this.handleEvaluate.bind(this)
-    this.handleNumber = this.handleNumber.bind(this)
     this.handleOperator = this.handleOperator.bind(this)
+    this.handleDecimal = this.handleDecimal.bind(this)
+    this.handleNumber = this.handleNumber.bind(this)
+    this.handleAllClear = this.handleAllClear.bind(this)
   }
 
   handleEvaluate = () => {
@@ -69,6 +70,8 @@ class App extends React.Component {
       })
     }
   }
+
+  handleDecimal = () => {}
 
   handleNumber = (e) => {
     let value = e.target.value
@@ -121,11 +124,12 @@ class App extends React.Component {
             <Output
               currVal={this.state.currVal}
             />
-            <Buttons
-              handleAllClear={this.handleAllClear}
-              handleNumber={this.handleNumber}
-              handleOperator={this.handleOperator}
+            <Buttons             
               handleEvaluate={this.handleEvaluate}
+              handleOperator={this.handleOperator}
+              handleDecimal={this.handleDecimal}
+              handleNumber={this.handleNumber}
+              handleAllClear={this.handleAllClear}
             />
           </div>
         </div>
@@ -153,7 +157,7 @@ class Buttons extends React.Component {
         <button id='two' className='btn btn-secondary' onClick={this.props.handleNumber} value='2'>2</button>
         <button id='one' className='btn btn-secondary' onClick={this.props.handleNumber} value='1'>1</button>
         <button id='zero' className='btn btn-secondary' onClick={this.props.handleNumber} value='0'>0</button>
-        <button id='decimal' className='btn btn-secondary'>.</button>
+        <button id='decimal' className='btn btn-secondary' onClick={this.props.handleDecimal} value='.'>.</button>
         <button id='equals' className='btn btn-primary' onClick={this.props.handleEvaluate} value='='>=</button>
       </div>
     )
