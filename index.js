@@ -84,10 +84,17 @@ class App extends React.Component {
         evaluated: false
       })
     } else if (!currVal.includes('.')) {
-      this.setState({
-        formula: formula + '.',
-        currVal: formula.match(/(-?\d+\.?\d*)$/)[0] + '.'
-      })
+      if (endsWithOperator.test(formula || ( currVal === '0' && formula === ''))) {
+       this.setState({
+         currVal: '0.',
+         formula: formula + '0.'
+       }) 
+      } else {
+        this.setState({
+          formula: formula + '.',
+          currVal: formula.match(/(-?\d+\.?\d*)$/)[0] + '.'
+        })
+      }
     }
   }
 
