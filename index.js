@@ -34,7 +34,10 @@ class App extends React.Component {
 
     let answer = Math.round(1000000000000 * eval(expression)) / 1000000000000
     this.setState({
-      formula: expression,
+      formula: expression
+        .replace(/\*/g, '⋅')
+        .replace(/-/g, '-')
+        .replace('+0+0+0+0+0+0+', '--'),
       currVal: answer,
       prevVal: answer,
       evaluated: true
@@ -71,7 +74,22 @@ class App extends React.Component {
     }
   }
 
-  handleDecimal = () => {}
+  handleDecimal = () => { 
+    let { currVal, formula, evaluated } = this.state
+
+    if (evaluated) {
+      this.setState({
+        formula: '0.',
+        currVal: '0.',
+        evaluated: false
+      })
+    } else if (!currVal.includes('.')) {
+      this.setState({
+        formula: formula + '.',
+        currVal: formula.match(/(-?\d+\.?\d*)$/)[0] + '.'
+      })
+    }
+  }
 
   handleNumber = (e) => {
     let value = e.target.value
@@ -124,7 +142,7 @@ class App extends React.Component {
             <Output
               currVal={this.state.currVal}
             />
-            <Buttons             
+            <Buttons
               handleEvaluate={this.handleEvaluate}
               handleOperator={this.handleOperator}
               handleDecimal={this.handleDecimal}
