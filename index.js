@@ -1,7 +1,7 @@
 const inputNumbers = /([^.0-9]0|^0)$/
-const endsWithOperator = /[x+-/]$/
-const endsWithNegativeSign = /\d[x/+-]{1}-$/
-const isOperator = /[x/+-]/
+const endsWithOperator = /[×+-/]$/
+const endsWithNegativeSign = /\d[×/+-]{1}-$/
+const isOperator = /[×/+-]/
 
 class App extends React.Component {
   constructor(props) {
@@ -28,14 +28,14 @@ class App extends React.Component {
       expression = expression.slice(0, -1)
     }
     expression = expression
-      .replace(/x/g, '*')
+      .replace(/×/g, '*')
       .replace(/-/g, '-')
       .replace('--', '+0+0+0+0+0+0+')
 
     let answer = Math.round(1000000000000 * eval(expression)) / 1000000000000
     this.setState({
       formula: expression
-        .replace(/\*/g, '⋅')
+        .replace(/\*/g, '×')
         .replace(/-/g, '-')
         .replace('+0+0+0+0+0+0+', '--'),
       currVal: answer,
@@ -74,7 +74,7 @@ class App extends React.Component {
     }
   }
 
-  handleDecimal = () => { 
+  handleDecimal = () => {
     let { currVal, formula, evaluated } = this.state
 
     if (evaluated) {
@@ -84,11 +84,11 @@ class App extends React.Component {
         evaluated: false
       })
     } else if (!currVal.includes('.')) {
-      if (endsWithOperator.test(formula || ( currVal === '0' && formula === ''))) {
-       this.setState({
-         currVal: '0.',
-         formula: formula + '0.'
-       }) 
+      if (endsWithOperator.test(formula || (currVal === '0' && formula === ''))) {
+        this.setState({
+          currVal: '0.',
+          formula: formula + '0.'
+        })
       } else {
         this.setState({
           formula: formula + '.',
@@ -166,24 +166,28 @@ class App extends React.Component {
 class Buttons extends React.Component {
   render() {
     return (
-      <div>
-        <button id='clear' className='btn btn-primary' onClick={this.props.handleAllClear}>AC</button>
-        <button id='add' className='btn btn-secondary' onClick={this.props.handleOperator} value='+'>+</button>
-        <button id='subtract' className='btn btn-secondary' onClick={this.props.handleOperator} value='-'>-</button>
-        <button id='multiply' className='btn btn-secondary' onClick={this.props.handleOperator} value='x'>x</button>
-        <button id='divide' className='btn btn-secondary' onClick={this.props.handleOperator} value='/'>/</button>
-        <button id='nine' className='btn btn-secondary' onClick={this.props.handleNumber} value='9'>9</button>
-        <button id='eight' className='btn btn-secondary' onClick={this.props.handleNumber} value='8'>8</button>
-        <button id='seven' className='btn btn-secondary' onClick={this.props.handleNumber} value='7'>7</button>
-        <button id='six' className='btn btn-secondary' onClick={this.props.handleNumber} value='6'>6</button>
-        <button id='five' className='btn btn-secondary' onClick={this.props.handleNumber} value='5'>5</button>
-        <button id='four' className='btn btn-secondary' onClick={this.props.handleNumber} value='4'>4</button>
-        <button id='three' className='btn btn-secondary' onClick={this.props.handleNumber} value='3'>3</button>
-        <button id='two' className='btn btn-secondary' onClick={this.props.handleNumber} value='2'>2</button>
-        <button id='one' className='btn btn-secondary' onClick={this.props.handleNumber} value='1'>1</button>
-        <button id='zero' className='btn btn-secondary' onClick={this.props.handleNumber} value='0'>0</button>
-        <button id='decimal' className='btn btn-secondary' onClick={this.props.handleDecimal} value='.'>.</button>
-        <button id='equals' className='btn btn-primary' onClick={this.props.handleEvaluate} value='='>=</button>
+      <div className='buttons-container'>
+        <button id='add' onClick={this.props.handleOperator} value='+'>+</button>
+        <button id='subtract' onClick={this.props.handleOperator} value='-'>-</button>
+          <button id='multiply' onClick={this.props.handleOperator} value='×'>×</button>
+          <button id='divide' onClick={this.props.handleOperator} value='/'>/</button>
+        <div className='left'>
+          <button id='nine' onClick={this.props.handleNumber} value='9'>9</button>
+          <button id='eight' onClick={this.props.handleNumber} value='8'>8</button>
+          <button id='seven' onClick={this.props.handleNumber} value='7'>7</button>
+          <button id='six' onClick={this.props.handleNumber} value='6'>6</button>
+          <button id='five' onClick={this.props.handleNumber} value='5'>5</button>
+          <button id='four' onClick={this.props.handleNumber} value='4'>4</button>
+          <button id='three' onClick={this.props.handleNumber} value='3'>3</button>
+          <button id='two' onClick={this.props.handleNumber} value='2'>2</button>
+          <button id='one' onClick={this.props.handleNumber} value='1'>1</button>
+          <button id='zero' onClick={this.props.handleNumber} value='0'>0</button>
+          <button id='decimal' onClick={this.props.handleDecimal} value='.'>.</button>
+          <button id='clear' onClick={this.props.handleAllClear}>AC</button>
+        </div>
+        <div className='right'>
+          <button id='equals' onClick={this.props.handleEvaluate} value='='>=</button>
+        </div>
       </div>
     )
   }

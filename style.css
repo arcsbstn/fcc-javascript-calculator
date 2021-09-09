@@ -1,6 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&display=swap');
+
+/* GENERAL */
+
 #content-wrapper {
   color: #fff;
-  background-color: #333;
+  background-color: rgb(241,241,241);
   height: 100vh;
 }
 
@@ -9,21 +13,79 @@
   margin: 0;
 }
 
+/* CALCULATOR LAYOUT */
+
 #calculator {
-  background-color: antiquewhite;
-  max-width: 400px;
+  background-color: rgb(207, 220,215);
+  max-width: 350px;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0.5em 0.5em rgb(190, 80, 85);
+  -webkit-box-shadow: 0.5em 0.5em rgba(190, 80, 85);
+  -moz-box-shadow: 0.5em 0.5em rgba(190, 80, 85);
 }
 
-.formula-screen {
-  background-color: #333;
+.formula-screen, .output-screen {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 2em;
+  max-width: 270px;
+  background-color: rgb(80,80,80);
   height: 50px;
-  margin: 5px 0 0 0;
+  margin: 5px auto;
   text-align: right;
+  border-radius: 20px;
+  box-shadow: 0.2em 0.2em rgb(60, 70, 60) inset;
+  -webkit-box-shadow: 0.2em 0.2em rgba(60, 70, 60) inset;
+  -moz-box-shadow: 0.2em 0.2em rgba(60, 70, 60) inset;
 }
 
-.output-screen {
-  background-color: #333;
-  height: 50px;
-  margin: 5px 0;
-  text-align: right;
+.buttons-container {
+  text-align: center;
+}
+
+.left {
+  display: inline-block;
+  max-width: 200px;
+}
+
+.right {
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+/* BUTTONS */
+
+button,
+button:active {
+  font-family: 'Roboto Mono', monospace;
+  width: 50px;
+  height: 40px;
+  margin: 0.5em;
+  color: #fbe0ca;
+  background-color: #f4a77b;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0.3em 0.3em rgba(70,100,90);
+  -webkit-box-shadow: 0.3em 0.3em rgba(70,100,90);
+  -moz-box-shadow: 0.3em 0.3em rgba(70,100,90);
+}
+
+button:hover,
+button:focus {
+  translate: 0.2em 0.2em;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: 0.2em 0.2em rgba(70,100,90) inset;
+  -webkit-box-shadow: 0.2em 0.2em rgba(70,100,90) inset;
+  -moz-box-shadow: 0.2em 0.2em rgba(70,100,90) inset;
+}
+
+#equals {
+  height: 209px;
+  background-color: rgb(190, 80, 85);
+}
+
+#clear {
+  background-color: rgb(190, 80, 85);
 }
