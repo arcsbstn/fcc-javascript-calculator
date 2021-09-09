@@ -58,11 +58,11 @@
 button,
 button:active {
   font-family: 'Roboto Mono', monospace;
+  color: rgb(251, 224, 202);
+  background-color: rgb(235, 144, 92);
   width: 50px;
   height: 40px;
   margin: 0.5em;
-  color: #fbe0ca;
-  background-color: #f4a77b;
   border: none;
   border-radius: 10px;
   box-shadow: 0.3em 0.3em rgba(70,100,90);
@@ -73,9 +73,6 @@ button:active {
 button:hover,
 button:focus {
   translate: 0.2em 0.2em;
-  box-shadow: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
   box-shadow: 0.2em 0.2em rgba(70,100,90) inset;
   -webkit-box-shadow: 0.2em 0.2em rgba(70,100,90) inset;
   -moz-box-shadow: 0.2em 0.2em rgba(70,100,90) inset;
@@ -88,4 +85,13 @@ button:focus {
 
 #clear {
   background-color: rgb(190, 80, 85);
+}
+
+#add, 
+#subtract, 
+#multiply, 
+#divide, 
+#decimal {
+  color: rgb(235, 144, 92);
+  background-color: rgb(251, 224, 202);
 }
